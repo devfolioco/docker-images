@@ -1,15 +1,15 @@
-FROM registry.access.redhat.com/ubi8/openjdk-11
+FROM openjdk:18
 
 LABEL maintainer="Debezium Community"
 
 #
 # Set the version, home directory, and MD5 hash.
 #
-ENV DEBEZIUM_VERSION=1.6.1.Final \
+ENV DEBEZIUM_VERSION=1.6.0.Final \
     SERVER_HOME=/debezium \
     MAVEN_REPO_CENTRAL="https://repo1.maven.org/maven2"
 ENV SERVER_URL_PATH=io/debezium/debezium-server-dist/$DEBEZIUM_VERSION/debezium-server-dist-$DEBEZIUM_VERSION.tar.gz \
-    SERVER_MD5=3871a644fbcc50d26a5276f03fbe2512
+    SERVER_MD5=1335e6d6f2ad093d3a34a50da5023600
 
 #
 # Create a directory for Debezium Server
@@ -20,12 +20,6 @@ RUN microdnf -y install gzip && \
     mkdir $SERVER_HOME && \
     chmod 755 $SERVER_HOME
 
-#
-# Change ownership and switch user
-#
-RUN chown -R jboss $SERVER_HOME && \
-    chgrp -R jboss $SERVER_HOME
-USER jboss
 
 RUN mkdir $SERVER_HOME/conf && \
     mkdir $SERVER_HOME/data
